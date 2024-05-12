@@ -33,13 +33,13 @@ public class UserController {
             throw new UserRegistrationInvalidDataException("Invalid sign up data is given!!");
         }
 
-        String emailRegexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        String passwordRegexPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,20}$";
-
-        if(!Pattern.compile(emailRegexPattern).matcher(requestDTO.getEmail()).matches() ||
-            !Pattern.compile(passwordRegexPattern, Pattern.CASE_INSENSITIVE).matcher(requestDTO.getPassword()).matches()){
-            throw new UserRegistrationImproperDataException("Email or password is not meeting the requirement!!");
-        }
+//        add a simplified regex pattern
+//        String emailRegexPattern = "^(.+)@(\\\\S+)$";
+//        String passwordRegexPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,20}$";
+//
+//        if(!Pattern.compile(emailRegexPattern).matcher(requestDTO.getEmail()).matches() ||
+//            !Pattern.compile(passwordRegexPattern).matcher(requestDTO.getPassword()).matches()){
+//            throw new UserRegistrationImproperDataException("Email or password is not meeting the requirement!!");
+//        }
     }
 }

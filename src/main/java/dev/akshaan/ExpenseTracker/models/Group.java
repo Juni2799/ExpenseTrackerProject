@@ -1,6 +1,7 @@
 package dev.akshaan.ExpenseTracker.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class Group extends BaseModel{
     @ManyToOne
     private User createdBy;
     private LocalDateTime createdDate;
+    @ManyToMany
     private List<User> members;
     @OneToMany
     private List<Expense> expenses;

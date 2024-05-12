@@ -1,5 +1,6 @@
 package dev.akshaan.ExpenseTracker.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.Getter;
@@ -11,7 +12,10 @@ import java.util.List;
 @Setter
 @Entity(name = "ET_USER")
 public class User extends BaseModel{
-    private String name, email, password;
+    private String name;
+    @Column(unique = true)
+    private String email;
+    private String password;
     @ManyToMany
     private List<User> friends;
     @ManyToMany
