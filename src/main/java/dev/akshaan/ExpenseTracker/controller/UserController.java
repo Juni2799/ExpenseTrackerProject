@@ -1,5 +1,6 @@
 package dev.akshaan.ExpenseTracker.controller;
 
+import dev.akshaan.ExpenseTracker.dtos.UserLoginRequestDTO;
 import dev.akshaan.ExpenseTracker.dtos.UserRegistrationRequestDTO;
 import dev.akshaan.ExpenseTracker.exception.UserRegistrationImproperDataException;
 import dev.akshaan.ExpenseTracker.exception.UserRegistrationInvalidDataException;
@@ -25,6 +26,14 @@ public class UserController {
         User savedUser = userService.signUp(userRegistrationRequestDTO.getName(), userRegistrationRequestDTO.getEmail(), userRegistrationRequestDTO.getPassword());
         return ResponseEntity.ok(EntityDTOMapper.toDTO(savedUser));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody UserLoginRequestDTO userLoginRequestDTO){
+        User savedUser = userService.login(userLoginRequestDTO.getEmail(), userLoginRequestDTO.getPassword());
+        return ResponseEntity.ok(EntityDTOMapper.toDTO(savedUser));
+    }
+
+    //Add user login validation method --> validateUserLoginRequestDTO
 
     private void validateUserRegistrationRequestDTO(UserRegistrationRequestDTO requestDTO){
         if(requestDTO.getName() == null ||

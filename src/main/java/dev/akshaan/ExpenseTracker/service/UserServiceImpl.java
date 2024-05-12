@@ -1,5 +1,7 @@
 package dev.akshaan.ExpenseTracker.service;
 
+import dev.akshaan.ExpenseTracker.exception.InvalidCredentialException;
+import dev.akshaan.ExpenseTracker.exception.UserDoesNotExistException;
 import dev.akshaan.ExpenseTracker.models.User;
 import dev.akshaan.ExpenseTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +21,20 @@ public class UserServiceImpl implements UserService{
         user.setEmail(email);
         user.setPassword(encoder.encode(password));
         return userRepository.save(user);
+    }
+
+    @Override
+    public User login(String email, String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        User savedUser = userRepository.findUserByEmail(email);
+        if(savedUser == null){
+            throw new UserDoesNotExistException("User does not exist!!");
+        }
+
+        if(encoder.matches(password, savedUser.getPassword())){
+            return savedUser;
+        }else{
+            throw new InvalidCredentialException("Invalid Credentials!!");
+        }
     }
 }
