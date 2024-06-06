@@ -119,12 +119,10 @@ public class StartUpConfig implements CommandLineRunner {
         userExpenseRepository.save(day1HotelStayPaidBy);
 
         for(User user: userRepository.findAll()){
-            if(!user.getName().equals(day1HotelStayUserExpenses.get(0).getUser().getName())){
-                UserExpense day1HotelStayHadToPay = UserExpense.builder()
-                        .user(user).amount(60).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
-                day1HotelStayUserExpenses.add(day1HotelStayHadToPay);
-                userExpenseRepository.save(day1HotelStayHadToPay);
-            }
+            UserExpense day1HotelStayHadToPay = UserExpense.builder()
+                    .user(user).amount(60).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
+            day1HotelStayUserExpenses.add(day1HotelStayHadToPay);
+            userExpenseRepository.save(day1HotelStayHadToPay);
         }
 
         day1HotelStay.setUserExpenses(day1HotelStayUserExpenses);
@@ -150,7 +148,7 @@ public class StartUpConfig implements CommandLineRunner {
         for(User user: userRepository.findAll()){
             if(!user.getName().equals(day2MorningWaterActivityUserExpense.get(0).getUser().getName())){
                 UserExpense day2MorningWaterActivityHadToPay = UserExpense.builder()
-                        .user(user).amount(120).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
+                        .user(user).amount(150).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
                 day2MorningWaterActivityUserExpense.add(day2MorningWaterActivityHadToPay);
                 userExpenseRepository.save(day2MorningWaterActivityHadToPay);
             }
@@ -176,10 +174,15 @@ public class StartUpConfig implements CommandLineRunner {
         day2AfternoonWaterActivityUserExpense.add(day2AfternoonWaterActivityPaidBy);
         userExpenseRepository.save(day2AfternoonWaterActivityPaidBy);
 
-        UserExpense day2AfternoonWaterActivityHadToPay = UserExpense.builder()
+        UserExpense day2AfternoonWaterActivityHadToPayByBob = UserExpense.builder()
                 .user(bobBrown).amount(100).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
-        day2AfternoonWaterActivityUserExpense.add(day2AfternoonWaterActivityHadToPay);
-        userExpenseRepository.save(day2AfternoonWaterActivityHadToPay);
+        day2AfternoonWaterActivityUserExpense.add(day2AfternoonWaterActivityHadToPayByBob);
+        userExpenseRepository.save(day2AfternoonWaterActivityHadToPayByBob);
+
+        UserExpense day2AfternoonWaterActivityHadToPayByJohn = UserExpense.builder()
+                .user(johnDoe).amount(100).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
+        day2AfternoonWaterActivityUserExpense.add(day2AfternoonWaterActivityHadToPayByJohn);
+        userExpenseRepository.save(day2AfternoonWaterActivityHadToPayByJohn);
 
         day2AfternoonWaterActivity.setUserExpenses(day2AfternoonWaterActivityUserExpense);
         goaTripExpenseList.add(day2AfternoonWaterActivity);
@@ -201,12 +204,10 @@ public class StartUpConfig implements CommandLineRunner {
         userExpenseRepository.save(foodPaidBy);
 
         for(User user: userRepository.findAll()){
-            if(!user.getName().equals(allThreeDaysFoodUserExpense.get(0).getUser().getName())){
-                UserExpense foodHadToPay = UserExpense.builder()
-                        .user(user).amount(80).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
-                allThreeDaysFoodUserExpense.add(foodHadToPay);
-                userExpenseRepository.save(foodHadToPay);
-            }
+            UserExpense foodHadToPay = UserExpense.builder()
+                    .user(user).amount(80).userExpenseType(UserExpenseType.HAD_TO_PAY).build();
+            allThreeDaysFoodUserExpense.add(foodHadToPay);
+            userExpenseRepository.save(foodHadToPay);
         }
 
         allThreeDaysFood.setUserExpenses(allThreeDaysFoodUserExpense);
