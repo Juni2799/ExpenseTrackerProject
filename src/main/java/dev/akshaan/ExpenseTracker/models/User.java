@@ -2,9 +2,9 @@ package dev.akshaan.ExpenseTracker.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class User extends BaseModel{
     @Column(unique = true)
     private String email;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> friends;
     @ManyToMany
     private List<Group> groups;

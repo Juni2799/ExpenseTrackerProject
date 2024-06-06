@@ -1,8 +1,8 @@
 package dev.akshaan.ExpenseTracker.service;
 
+import dev.akshaan.ExpenseTracker.dtos.SettlementTransactionDTO;
 import dev.akshaan.ExpenseTracker.models.Expense;
 import dev.akshaan.ExpenseTracker.models.Group;
-import dev.akshaan.ExpenseTracker.models.SettlementTransaction;
 import dev.akshaan.ExpenseTracker.repository.GroupRepository;
 import dev.akshaan.ExpenseTracker.service.strategy.settleUpStrategy.MinimumSettlementTransactionStrategy;
 import dev.akshaan.ExpenseTracker.service.strategy.settleUpStrategy.SettleUpStrategy;
@@ -22,7 +22,7 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public List<SettlementTransaction> settleUp(int groupId) {
+    public List<SettlementTransactionDTO> settleUp(int groupId) {
         Group group = groupRepository.findById(groupId).get();
         List<Expense> expenses = group.getExpenses();
         return settleUpStrategy.getSettlementTransactions(expenses);

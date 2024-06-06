@@ -1,5 +1,6 @@
 package dev.akshaan.ExpenseTracker.models;
 
+import dev.akshaan.ExpenseTracker.dtos.SettlementTransactionDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -23,6 +24,4 @@ public class Group extends BaseModel{
     @OneToMany
     private List<Expense> expenses;
     private double totalAmountSpent;
-    @OneToMany
-    private List<SettlementTransaction> settlementTransactions;
 }

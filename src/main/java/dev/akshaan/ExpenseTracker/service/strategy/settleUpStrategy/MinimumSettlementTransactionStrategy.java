@@ -1,8 +1,8 @@
 package dev.akshaan.ExpenseTracker.service.strategy.settleUpStrategy;
 
+import dev.akshaan.ExpenseTracker.dtos.SettlementTransactionDTO;
 import dev.akshaan.ExpenseTracker.dtos.UserAmount;
 import dev.akshaan.ExpenseTracker.models.Expense;
-import dev.akshaan.ExpenseTracker.models.SettlementTransaction;
 import dev.akshaan.ExpenseTracker.models.User;
 import dev.akshaan.ExpenseTracker.models.UserExpense;
 import dev.akshaan.ExpenseTracker.models.constants.UserExpenseType;
@@ -11,7 +11,7 @@ import java.util.*;
 
 public class MinimumSettlementTransactionStrategy implements SettleUpStrategy{
     @Override
-    public List<SettlementTransaction> getSettlementTransactions(List<Expense> expenses) {
+    public List<SettlementTransactionDTO> getSettlementTransactions(List<Expense> expenses) {
         HashMap<User, Double> map = getOutStandingBalances(expenses);
         // Comparator for min heap (ascending order)
         Comparator<UserAmount> minHeapComparator = Comparator.comparingDouble(UserAmount::getAmount);
@@ -32,7 +32,7 @@ public class MinimumSettlementTransactionStrategy implements SettleUpStrategy{
             }
         }
 
-        List<SettlementTransaction> settlementTransactions = new ArrayList<>();
+        List<SettlementTransactionDTO> settlementTransactions = new ArrayList<>();
 
 
         while(!minHeap.isEmpty() && !maxHeap.isEmpty()){
@@ -44,19 +44,19 @@ public class MinimumSettlementTransactionStrategy implements SettleUpStrategy{
                 //Lendor = 500, Borrower = -1000 , borrower pays lendor 500
                 borrower.setAmount(borrower.getAmount() + lendor.getAmount());
                 minHeap.add(borrower);
-                SettlementTransaction settlementTransaction = new SettlementTransaction(borrower.getUser(), lendor.getUser(), lendor.getAmount());
+                SettlementTransactionDTO settlementTransaction = new SettlementTransactionDTO(borrower.getUser(), lendor.getUser(), lendor.getAmount());
                 settlementTransactions.add(settlementTransaction);
             } else if(Math.abs(borrower.getAmount()) < lendor.getAmount()){
                 //Lendor = 1000, Borrower = -500
                 lendor.setAmount(lendor.getAmount() + borrower.getAmount());
                 maxHeap.add(lendor);
-                SettlementTransaction settlementTransaction = new SettlementTransaction(borrower.getUser(), lendor.getUser(), Math.abs(borrower.getAmount()) );
+                SettlementTransactionDTO settlementTransaction = new SettlementTransactionDTO(borrower.getUser(), lendor.getUser(), Math.abs(borrower.getAmount()) );
                 settlementTransactions.add(settlementTransaction);
             } else { // Math.abs(borrower.getAmount()) == lendor.getAmount()
                 //Lendor = 500, Borrower = -500
                 //Transaction -> Borrower to Lendor 500, and both are free from settle up
                 System.out.println("Do nothing, both are equal");
-                SettlementTransaction settlementTransaction = new SettlementTransaction(borrower.getUser(), lendor.getUser(), lendor.getAmount());
+                SettlementTransactionDTO settlementTransaction = new SettlementTransactionDTO(borrower.getUser(), lendor.getUser(), lendor.getAmount());
                 settlementTransactions.add(settlementTransaction);
             }
         }
@@ -87,17 +87,3 @@ public class MinimumSettlementTransactionStrategy implements SettleUpStrategy{
         return expenseMap;
     }
 }
-/*
-       1. Go through all the expenses, and find the total outstanding for each person
-       2. All borrowers will go to a min heap
-       3. All lendors will go to a max heap
-       4. pull min from minHeap and max from maxHeap, and create a transaction
-       5. Update the balances, put them back in heap
-       6. Keep doing until heap is empty.
-       Lendor = 500, Borrower = -500
-       make both of them zero, and keep both of them out of the heap
-       Lendor = 1000, Borrower = -500
-       borrower will become zero, lendor will become 500 and lendor will go inside the heap again
-       Lendor = 500, Borrower = -1000
-       Lendor will become zero, Borrower will become -500 and Borrower will go inside the heap again
- */

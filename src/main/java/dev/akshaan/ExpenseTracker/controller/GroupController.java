@@ -1,6 +1,6 @@
 package dev.akshaan.ExpenseTracker.controller;
 
-import dev.akshaan.ExpenseTracker.models.SettlementTransaction;
+import dev.akshaan.ExpenseTracker.dtos.SettlementTransactionDTO;
 import dev.akshaan.ExpenseTracker.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class GroupController {
 
     @GetMapping("/settleUp/{groupId}")
     public ResponseEntity settleUp(@PathVariable("groupId") int groupId){
-        List<SettlementTransaction> settlementTransactions = groupService.settleUp(groupId);
+        List<SettlementTransactionDTO> settlementTransactions = groupService.settleUp(groupId);
         return ResponseEntity.ok(settlementTransactions);
     }
 }
